@@ -162,155 +162,157 @@ export function App() {
       <main className="mx-auto w-full max-w-4xl">
         <Hero className="animate-in fade-in zoom-in duration-500" />
         <div className="mt-12 flex flex-col gap-12">
-          <BlockPreview
-            showPreviewCode
-            label='Calendar timeline'
-            block={{ code: exampleCode }}
-            className='animate-in fade-in duration-500'
-            classNames={{ wrapper: 'flex items-center overflow-hidden' }}
-          >
-            <TimelineProvider
-              force={!focus}
-              context={timeline}
-              hideRowHeader={hideRowHeader}
-              className='max-w-4xl'
+          {isLoading ? <Skeleton className='w-full h-[30rem]' /> : (
+            <BlockPreview
+              showPreviewCode
+              label='Calendar timeline'
+              block={{ code: exampleCode }}
+              className='animate-in fade-in duration-500'
+              classNames={{ wrapper: 'flex items-center overflow-hidden' }}
             >
-              <TimelineControl className='justify-between'>
-                <div className="flex items-center gap-1">
-                  <Button
-                    size="icon"
-                    variant="outline"
-                    onClick={() => timeline.navigate('prev')}
-                    className='rounded-sm size-8'
-                  >
-                    <ChevronLeft />
-                  </Button>
-                  <Button
-                    size="icon"
-                    variant="outline"
-                    onClick={() => timeline.navigate('next')}
-                    className='rounded-sm size-8'
-                  >
-                    <ChevronRight />
-                  </Button>
-                  <Button
-                    onClick={timeline.scrollToday}
-                    className='text-xs rounded-sm h-8'
-                  >
-                    Today
-                  </Button>
-                  <Button
-                    size="sm"
-                    onClick={() => setHideRowHeader(!hideRowHeader)}
-                    className="text-xs rounded-sm h-8"
-                  >
-                    Panel: {hideRowHeader ? 'hide' : 'show'}
-                  </Button>
-                </div>
-                <div className="flex items-center gap-1">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button
-                        size="sm"
-                        className="text-xs rounded-sm h-8"
-                      >
-                        <ListFilterPlus className="size-4" />
-                        Show in {unitMap[timeline.unit]}
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                      {Object.keys(unitMap).map((key, idx) => (
-                        <DropdownMenuItem
-                          key={idx}
-                          onClick={() => setUnit(key as TimeUnit)}
-                          className="capitalize text-xs focus:text-primary focus:bg-primary/40"
+              <TimelineProvider
+                force={!focus}
+                context={timeline}
+                hideRowHeader={hideRowHeader}
+                className='max-w-4xl'
+              >
+                <TimelineControl className='justify-between'>
+                  <div className="flex items-center gap-1">
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      onClick={() => timeline.navigate('prev')}
+                      className='rounded-sm size-8'
+                    >
+                      <ChevronLeft />
+                    </Button>
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      onClick={() => timeline.navigate('next')}
+                      className='rounded-sm size-8'
+                    >
+                      <ChevronRight />
+                    </Button>
+                    <Button
+                      onClick={timeline.scrollToday}
+                      className='text-xs rounded-sm h-8'
+                    >
+                      Today
+                    </Button>
+                    <Button
+                      size="sm"
+                      onClick={() => setHideRowHeader(!hideRowHeader)}
+                      className="text-xs rounded-sm h-8"
+                    >
+                      Panel: {hideRowHeader ? 'hide' : 'show'}
+                    </Button>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          size="sm"
+                          className="text-xs rounded-sm h-8"
                         >
-                          {key}
-                          {key === unit && <CheckIcon className='ml-auto' />}
-                        </DropdownMenuItem>
-                      ))}
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button
-                        size="sm"
-                        className="text-xs rounded-sm h-8"
-                      >
-                        <ArrowDownNarrowWide className="size-5" />
-                        Sort {sort}
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                      {['asc', 'desc'].map((key, idx) => (
-                        <DropdownMenuItem
-                          key={idx}
-                          onClick={() => setSort(key as 'asc')}
-                          className="capitalize text-xs focus:text-primary focus:bg-primary/40"
+                          <ListFilterPlus className="size-4" />
+                          Show in {unitMap[timeline.unit]}
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        {Object.keys(unitMap).map((key, idx) => (
+                          <DropdownMenuItem
+                            key={idx}
+                            onClick={() => setUnit(key as TimeUnit)}
+                            className="capitalize text-xs focus:text-primary focus:bg-primary/40"
+                          >
+                            {key}
+                            {key === unit && <CheckIcon className='ml-auto' />}
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          size="sm"
+                          className="text-xs rounded-sm h-8"
                         >
-                          {key}
-                          {key === sort && <CheckIcon className='ml-auto' />}
-                        </DropdownMenuItem>
-                      ))}
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                  <Popover>
-                    <PopoverTrigger>
-                      <Button
-                        size="sm"
-                        className="text-xs rounded-sm h-8"
-                      >
-                        <CalendarIcon className='size-5' />
-                        Date fields
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
-                      <div className="flex gap-4">
-                        <Calendar
-                          initialFocus
-                          mode="single"
-                          selected={date.from}
-                          defaultMonth={date.from}
-                          className="border-r pr-4"
-                          onSelect={(from) => {
-                            if (!from) return
-                            setDate((prev) => ({
-                              from,
-                              to: prev.to && isAfter(from, prev.to) ? addDays(from, 1) : prev.to
-                            }))
-                          }}
-                        />
-                        <Calendar
-                          initialFocus
-                          mode="single"
-                          selected={date.to}
-                          defaultMonth={date.to}
-                          disabled={(value) => isBefore(value, date.from || new Date())}
-                          onSelect={(to) => {
-                            if (!to) return
-                            setDate((prev) => ({ to, from: prev.from || addDays(to, -1) }))
-                          }}
-                        />
-                      </div>
-                    </PopoverContent>
-                  </Popover>
-                  <Button
-                    size="icon"
-                    variant={focus ? "secondary" : "outline"}
-                    className="text-xs rounded-sm size-8"
-                    onClick={() => setFocus(!focus)}
-                  >
-                    <FocusIcon className='size-5' />
-                  </Button>
-                </div>
-              </TimelineControl>
+                          <ArrowDownNarrowWide className="size-5" />
+                          Sort {sort}
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        {['asc', 'desc'].map((key, idx) => (
+                          <DropdownMenuItem
+                            key={idx}
+                            onClick={() => setSort(key as 'asc')}
+                            className="capitalize text-xs focus:text-primary focus:bg-primary/40"
+                          >
+                            {key}
+                            {key === sort && <CheckIcon className='ml-auto' />}
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                    <Popover>
+                      <PopoverTrigger>
+                        <Button
+                          size="sm"
+                          className="text-xs rounded-sm h-8"
+                        >
+                          <CalendarIcon className='size-5' />
+                          Date fields
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0">
+                        <div className="flex gap-4">
+                          <Calendar
+                            initialFocus
+                            mode="single"
+                            selected={date.from}
+                            defaultMonth={date.from}
+                            className="border-r pr-4"
+                            onSelect={(from) => {
+                              if (!from) return
+                              setDate((prev) => ({
+                                from,
+                                to: prev.to && isAfter(from, prev.to) ? addDays(from, 1) : prev.to
+                              }))
+                            }}
+                          />
+                          <Calendar
+                            initialFocus
+                            mode="single"
+                            selected={date.to}
+                            defaultMonth={date.to}
+                            disabled={(value) => isBefore(value, date.from || new Date())}
+                            onSelect={(to) => {
+                              if (!to) return
+                              setDate((prev) => ({ to, from: prev.from || addDays(to, -1) }))
+                            }}
+                          />
+                        </div>
+                      </PopoverContent>
+                    </Popover>
+                    <Button
+                      size="icon"
+                      variant={focus ? "secondary" : "outline"}
+                      className="text-xs rounded-sm size-8"
+                      onClick={() => setFocus(!focus)}
+                    >
+                      <FocusIcon className='size-5' />
+                    </Button>
+                  </div>
+                </TimelineControl>
 
-              <TimelineContent className='max-h-[30rem]'>
-                <TimelineHeader />
-                <TimelineRows />
-              </TimelineContent>
-            </TimelineProvider>
-          </BlockPreview>
+                <TimelineContent className='max-h-[30rem]'>
+                  <TimelineHeader />
+                  <TimelineRows />
+                </TimelineContent>
+              </TimelineProvider>
+            </BlockPreview>
+          )}
 
           <div className="flex flex-col gap-4">
             <h1 className="text-lg font-semibold leading-none">
