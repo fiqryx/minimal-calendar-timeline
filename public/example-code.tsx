@@ -15,6 +15,8 @@ import {
     ArrowDownNarrowWide,
     CalendarIcon,
     FocusIcon,
+    Bookmark,
+    CalendarDays,
 } from 'lucide-react';
 import {
     DropdownMenu,
@@ -202,17 +204,21 @@ export function App() {
                 endDate: 'endDate'
             },
             header: (item) => (
-                <a href="#" className='text-sm font-semibold hover:underline'>
-                    {item.name}
-                </a>
+                <div className="flex inl items-center gap-1">
+                    <Bookmark className='size-4' />
+                    <a href="#" className='text-sm font-semibold hover:underline'>
+                        {item.name}
+                    </a>
+                </div>
             ),
             cell: (item) => {
                 const startDate = item.startDate ? format(item.startDate, "EEE, MMM d ") : '';
                 const endDate = item.endDate ? format(item.endDate, "EEE, MMM d") : ''
                 return (
-                    <span className='text-xs truncate font-semibold'>
-                        {`${startDate} - ${endDate}`}
-                    </span>
+                    <div className='flex items-center text-xs truncate font-semibold gap-2'>
+                        <CalendarDays className='size-4' />
+                        <span>{`${startDate} - ${endDate}`}</span>
+                    </div>
                 )
             },
             onClick: ({ item, startDate, endDate }) => {
