@@ -7,7 +7,7 @@
 1. Install the required dependencies:
 
 ```bash
-npm install react-dnd react-dnd-html5-backend
+npm install date-fns react-dnd react-dnd-html5-backend
 ```
 
 2. Copy and paste the following code into your project:
