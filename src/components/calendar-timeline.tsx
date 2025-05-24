@@ -78,7 +78,7 @@ function getDateValue(item: TData, dateField: string | TCallback<TData, string>)
 
 function getEndDate(date: Date, unit: TimeUnit) {
     switch (unit) {
-        case 'week': return endOfWeek(date);
+        case 'week': return endOfWeek(date, { weekStartsOn: 1 });
         case 'month': return endOfMonth(date);
         case 'quarter': return endOfQuarter(date);
         default: return addDays(date, 1);
@@ -235,7 +235,7 @@ const TimelineHeader = memo(({ render, className, ...props }: TimelineHeaderProp
             case 'day':
                 return format(date, `EEE, ${isSameYear(date, new Date()) ? "MMM d" : "MMM d ''yy"}`)
             case 'week':
-                return `${format(date, "MMM d")} - ${format(endOfWeek(date), isSameYear(date, new Date()) ? "MMM d" : "MMM d ''yy")}`
+                return `${format(date, "MMM d")} - ${format(getEndDate(date, 'week'), isSameYear(date, new Date()) ? "MMM d" : "MMM d ''yy")}`
             case 'month':
                 return format(date, "MMMM yyyy")
             case 'quarter':
