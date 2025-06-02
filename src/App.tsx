@@ -127,9 +127,11 @@ export function App() {
         endDate: 'endDate'
       },
       header: (item) => (
-        <div className="flex inl items-center gap-1">
-          <Bookmark className='size-4' />
-          <a href="#" className='text-sm font-semibold hover:underline'>
+        <div className="flex flex-shrink-0 w-full items-center gap-1">
+          <div className="icon">
+            <Bookmark className='size-4' />
+          </div>
+          <a href="#" className='text-sm font-semibold truncate hover:underline'>
             {item.name}
           </a>
         </div>
@@ -138,9 +140,13 @@ export function App() {
         const startDate = item.startDate ? format(item.startDate, "EEE, MMM d ") : '';
         const endDate = item.endDate ? format(item.endDate, "EEE, MMM d") : ''
         return (
-          <div className='flex items-center text-xs truncate font-semibold gap-2'>
-            <CalendarDays className='size-4' />
-            <span>{`${startDate} - ${endDate}`}</span>
+          <div className='flex flex-shrink-0 items-center gap-1 max-w-full'>
+            <div className="icon">
+              <CalendarDays className='size-4' />
+            </div>
+            <span title={`${startDate} - ${endDate}`} className='text-xs truncate font-semibold '>
+              {`${startDate} - ${endDate}`}
+            </span>
           </div>
         )
       },
@@ -214,7 +220,7 @@ export function App() {
                       Panel: {hideRowHeader ? 'hide' : 'show'}
                     </Button>
                   </div>
-                  <div className="flex items-center gap-1">
+                  <div className="flex flex-wrap items-center gap-1">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button

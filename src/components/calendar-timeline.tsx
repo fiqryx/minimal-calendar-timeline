@@ -181,7 +181,7 @@ function TimelineProvider({ context, force, className, hideRowHeader, children, 
             <TimelineContext.Provider value={{ ...context, data, isNotEmpty, hideRowHeader }}>
                 <div
                     {...props}
-                    className={cn('flex flex-col rounded-sm border', className)}
+                    className={cn('grid grid-cols-1 rounded-sm border', className)}
                 >
                     {children}
                 </div>
@@ -195,7 +195,7 @@ function TimelineControl({ className, ...props }: React.ComponentProps<'div'>) {
     return (
         <div
             {...props}
-            className={cn('flex items-center bg-sidebar p-2 gap-1', className)}
+            className={cn('flex flex-wrap items-center bg-sidebar p-2 gap-1', className)}
         />
     )
 }
@@ -211,7 +211,7 @@ function TimelineContent({ className, style, children, ...props }: React.Compone
                 style={{ scrollbarWidth: 'thin', ...style }}
                 className={cn('scroll-smooth flex-grow border-t', className)}
             >
-                <div className="relative min-w-max">
+                <div className="relative xmin-w-max">
                     {children}
                 </div>
             </div>
@@ -337,7 +337,7 @@ const TimelineRows = memo(({ className, children, ...props }: React.ComponentPro
                         className={cn(
                             'h-fit min-h-11 flex items-center flex-shrink-0 p-2 overflow-hidden bg-sidebar truncate z-1 sticky left-0 border-r',
                             'transition-transform duration-300 ease-out',
-                            hideRowHeader ? 'translate-x-[-100%]' : 'translate-x-0',
+                            hideRowHeader ? 'translate-x-[-100%] hidden' : 'translate-x-0',
                             TIMELINE_CELL
                         )}
                     >
