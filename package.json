@@ -28,6 +28,7 @@
     "react-day-picker": "8.10.1",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
+    "react-dnd-touch-backend": "^16.0.1",
     "react-dom": "^19.1.0",
     "react-resizable-panels": "^3.0.2",
     "shiki": "^3.4.2",

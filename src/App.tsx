@@ -1,3 +1,4 @@
+import useMobile from '@/hooks/use-mobile.ts?raw';
 import calendarTimelineCode from '@/components/calendar-timeline.tsx?raw';
 
 import { useEffect, useState } from 'react'
@@ -63,8 +64,14 @@ const installations = [
         full
         lang='bash'
         className='mt-4'
-        code="npm install date-fns react-dnd react-dnd-html5-backend"
+        code="npm install date-fns react-dnd react-dnd-html5-backend react-dnd-touch-backend"
       />
+    )
+  },
+  {
+    label: 'Create new file use-mobile.ts at @/hooks',
+    children: (
+      <BlockCode full code={useMobile} className='mt-4' />
     )
   },
   {
