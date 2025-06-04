@@ -7,12 +7,35 @@
 1. Install the required dependencies:
 
 ```bash
-npm install date-fns react-dnd react-dnd-html5-backend
+npm install date-fns react-dnd react-dnd-html5-backend react-dnd-touch-backend
 ```
 
-2. Copy and paste the following code into your project:
+2. Create new file [use-mobile.ts](/src/hooks/use-mobile.ts) at `@/hooks`:
 
-[src/components/calendar-timeline.tsx](./src/components//calendar-timeline.tsx)
+```tsx
+import { useState, useEffect } from "react"
+
+const MOBILE_BREAKPOINT = 768
+
+export function useIsMobile(breakpoint: number = MOBILE_BREAKPOINT) {
+    const [isMobile, setIsMobile] = useState<boolean | undefined>(undefined)
+
+    useEffect(() => {
+        const mql = window.matchMedia(`(max-width: ${breakpoint - 1}px)`)
+        const onChange = () => {
+            setIsMobile(window.innerWidth < breakpoint)
+        }
+        mql.addEventListener("change", onChange)
+        setIsMobile(window.innerWidth < breakpoint)
+        return () => mql.removeEventListener("change", onChange)
+    }, []);
+
+    return !!isMobile
+}
+
+```
+
+3. Copy and paste the following code into your project [calendar-timeline.tsx](./src/components/calendar-timeline.tsx)
 
 ## Dependencies
 
